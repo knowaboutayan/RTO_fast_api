@@ -2,3 +2,4 @@ snowflake-connector-python==3.0.4
 python-dotenv==1.0.0
 pandas==2.0.3
 fastapi==0.103.1
+uvicorn
