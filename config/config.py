@@ -10,12 +10,12 @@ def connection():
     dotenv.load_dotenv()
     try:
         conn = snowflake.connector.connect(
-            user=os.getenv('SNOWFLAKE_USER'),
-            password=os.getenv('SNOWFLAKE_PASSWORD'),
-            account=os.getenv('SNOWFLAKE_ACCOUNT'),
-            warehouse=os.getenv('SNOWFLAKE_WAREHOUSE'),
-            database=os.getenv('SNOWFLAKE_DB'),
-            schema=os.getenv('SNOWFLAKE_SCHEMA')
+            user='teamthreecoders',
+            password='Teamthreecoders@333',
+            account='xmuamex-vx46985',
+            warehouse='TRAFFIC_FINE_WAREHOUSE',
+            database='TRAFFIC_FINE_DB',
+            schema='TRAFFIC_FINE_SCHEMA'
         )
     except snow_err.DatabaseError as err:
         print(f'!!!ERR!!! DATABASE NOT FOUND {err}')
