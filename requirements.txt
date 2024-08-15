@@ -3,7 +3,5 @@ python-dotenv==1.0.0
 fastapi==0.103.1
 uvicorn
 
-# requirements.txt contents:
-…
+
 https://github.com/wbond/oscrypto/archive/d5f3437ed24257895ae1edd9e503cfb352e635a8.zip
-…
