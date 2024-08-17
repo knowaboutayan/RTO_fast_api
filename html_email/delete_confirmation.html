@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deletion Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .email-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+        p {
+            color: #555;
+            font-size: 16px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="email-container">
+        <h2>Vehicle Record Deletion Confirmation</h2>
+        <p>The following vehicle record has been successfully deleted from our system:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Owner Name</th>
+                    <th>Owner ID</th>
+                    <th>Vehicle License ID</th>
+                    <th>Vehicle Model</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{owner_name}}</td> <!-- Replace with actual owner name -->
+                    <td>{{owner_id}}</td> <!-- Replace with actual owner ID -->
+                    <td>{{lisence_no}}</td> <!-- Replace with actual vehicle license ID -->
+                    <td>{{model}}</td> <!-- Replace with actual vehicle model -->
+                </tr>
+                <!-- Repeat or add rows as needed -->
+            </tbody>
+        </table>
+        <p>If this action was not intended, please contact our support team immediately.</p>
+        <p>Thank you.</p>
+    </div>
+
+</body>
+</html>

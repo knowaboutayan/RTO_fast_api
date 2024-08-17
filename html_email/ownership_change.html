@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Ownership Change</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        h2 {
+            color: #4CAF50;
+        }
+        p {
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Vehicle Ownership Transfer Notification</h2>
+        <p>Dear {{ old_owner_name }} and {{ new_owner_name }},</p>
+        <p>This is to inform you that the ownership of the vehicle with the following license plate has been transferred:</p>
+
+        <table>
+            <tr>
+                <th>License Plate</th>
+                <td>{{ license_plate_number }}</td>
+            </tr>
+        </table>
+
+        <h3>Old Owner Details</h3>
+        <table>
+            <tr>
+                <th>Owner ID</th>
+                <td>{{ old_owner_id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ old_owner_name }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ old_owner_email }}</td>
+            </tr>
+        </table>
+
+        <h3>New Owner Details</h3>
+        <table>
+            <tr>
+                <th>Owner ID</th>
+                <td>{{ new_owner_id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ new_owner_name }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ new_owner_email }}</td>
+            </tr>
+        </table>
+
+        <p>Thank you,</p>
+        <p>{{ company_name }}</p>
+    </div>
+</body>
+</html>

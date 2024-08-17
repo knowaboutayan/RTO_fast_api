@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>E-Challan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .details {
+            margin-bottom: 20px;
+        }
+
+        .details h2 {
+            margin: 0 0 10px;
+            font-size: 20px;
+            color: #555;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .qr-code {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .qr-code img {
+            max-width: 100px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .pay-button {
+            background-color: #4CAF50;
+            /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: background-color 0.3s ease;
+        }
+
+        .pay-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>E-Challan</h1>
+        </div>
+        <div class="details">
+            <h2>Challan Details</h2>
+            <table>
+                <tr>
+                    <th>Challan Number</th>
+                    <td>{{CHALLAN_NUMBER}}</td>
+                </tr>
+                <tr>
+                    <th>Date and Time</th>
+                    <td>{{DATE_TIME}}</td>
+                </tr>
+
+                <tr>
+                    <th>Vehicle Number</th>
+                    <td>{{VEHICLE_NUMBER}}</td>
+                </tr>
+
+                <tr>
+                    <th>Model Number</th>
+                    <td>{{MODEL_NUMBER}}</td>
+                </tr>
+                <tr>
+                    <th>Owner Name</th>
+                    <td>{{OWNER_NAME}}</td>
+                </tr>
+                <tr>
+                    <th>Violation</th>
+                    <td>{{VIOLATION}}</td>
+                </tr>
+                <tr>
+                    <th>Total Fine Amount</th>
+                    <td>{{FINE_AMOUNT}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="container">
+            <button class="pay-button">Pay Here</button>
+        </div>
+        <div class="qr-code">
+            <p>Scan the QR code to pay the fine:</p>
+            <img src="https://www.qr-code-generator.com/wp-content/themes/qr/images/banners/frames/websiteQRCode_noFrame.png"
+                alt="QR Code">
+        </div>
+        <div class="footer">
+            <p>Thank you for your cooperation.</p>
+            <p>For any queries, contact us at <a href="mailto:support.i3coders@gmail.com">support.i3coders@gmail.com</a>.</p>
+        </div>
+    </div>
+</body>
+
+</html>

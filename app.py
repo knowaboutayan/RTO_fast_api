@@ -2,7 +2,9 @@ from error_response import api_err
 from fastapi import FastAPI
 from typing import Optional
 from config import config
-
+from pydantic import BaseModel
+import random
+from services import emailSending
 app = FastAPI()
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -60,6 +62,53 @@ def get_challan_details(challan_id:str =None):
     # formated_response = json.dumps(formated_response)
     return formated_response
 
+class Owner_details(BaseModel):
+    owner_id:str
+    name:str
+    email:str
+    
+@app.post('/add/owner_details')
+async def add_owner_details(owner_details:Owner_details):
+    QUERY = f"INSERT INTO OWNER_DETAILS VALUES('{owner_details.owner_id.upper()}','{owner_details.name.upper()}','{owner_details.email.lower()}')"
+    response = config.query_runner(sql_query=QUERY)
+    if response == 1:
+        return api_err.server_error
+    if len(response)==0:
+        return api_err.no_data_found
+    
+    formated_response ={ 'status':200, 'text':"Added successul"}
+    # formated_response = json.dumps(formated_response)
+    return formated_response
 
+class Vehicle_details(BaseModel):
+    vehicle_id: str
+    owner_id: str
+    license_plate_no:str
+    model: str
 
+@app.post('/add/vehicle_details')
+async def add_vehicle(vehicle_details:Vehicle_details):
+    QUERY = f"INSERT INTO VEHICLE_DETAILS VALUES('{vehicle_details.vehicle_id.upper()}','{vehicle_details.owner_id.upper()}','{vehicle_details.license_plate_no.upper()}','{vehicle_details.model.upper()}')"
+    response = config.query_runner(sql_query=QUERY)
+    if response == 1:
+        return api_err.server_error
+    if len(response)==0:
+        return api_err.no_data_found
+    
+    formated_response ={ 'status':200, 'text':"Added successul"}
+    # formated_response = json.dumps(formated_response)
+    return formated_response
 
+class Otp(BaseModel):
+    email:str
+@app.post('/verification/otp')
+async def otp_send(otp:Otp):
+    OTP = random.randint(1000,9999)
+    with open('html_email/OTP_verification.html') as file:
+        body = file.read()
+        body=body.replace('{{OTP}}',str(OTP))
+        
+    emailSending.send_email(receiver_email = [otp.email],body=body,body_type='html',subject="OTP verification")
+    
+    formated_response = {'status':200,'otp':OTP}
+    return formated_response
