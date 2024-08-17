@@ -112,3 +112,46 @@ async def otp_send(otp:Otp):
     
     formated_response = {'status':200,'otp':OTP}
     return formated_response
+
+class Update_owner_details(BaseModel):
+    owner_id:str
+    name:str
+    email:str
+    
+@app.put('/update/owner_details')
+async def updateOwner_details(update_owner_details:Update_owner_details):
+    QUERY = f"UPDATE owner_details SET name = '{update_owner_details.name}',email='{update_owner_details.email}' WHERE owner_id = '{update_owner_details.owner_id}'"
+    response = config.query_runner(sql_query=QUERY) 
+    if(response==1):
+        return api_err.update_unsuccessful
+    return api_err.update_successful
+
+class Update_vehicle_details(BaseModel):
+    vehicle_id:str
+    owner_id:str
+    
+
+@app.put('/update/vehicle_details')
+async def updateOwner_details(update_vehicle_details:Update_vehicle_details):
+    QUERY = f"UPDATE vehicle_details SET owner_id = '{update_vehicle_details.owner_id.upper()}' WHERE vehicle_id = '{update_vehicle_details.vehicle_id.upper()}'"
+    response = config.query_runner(sql_query=QUERY) 
+    if(response==1):
+        return api_err.update_unsuccessful
+    return api_err.update_successful
+
+@app.delete('/delete/owner_details')
+async def deleteOwner_details(owner_id:str):
+    QUERY = f"DELETE FROM owner_details where owner_id = '{owner_id}'"
+    response = config.query_runner(sql_query=QUERY) 
+    if(response==1):
+        return api_err.delete_unsuccessful
+    return api_err.delete_successful
+    
+@app.delete('/delete/vehicle_details')
+async def deleteOwner_details(vehicle_id:str):
+    QUERY = f"DELETE FROM vehicle_details where vehicle_id = '{vehicle_id}'"
+    response = config.query_runner(sql_query=QUERY) 
+    if(response==1):
+        return api_err.delete_unsuccessful
+    return api_err.delete_successful
+
