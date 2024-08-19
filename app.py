@@ -103,7 +103,6 @@ async def add_vehicle(vehicle_details:Vehicle_details):
 class Challan_details(BaseModel):
     challan_id:str
     license_plate_no:str
-    violance_date:str
     violation:str
     amount:str
     violetion_time:str
@@ -111,7 +110,7 @@ class Challan_details(BaseModel):
     
 @app.post('/add/challan_details')
 async def add_challan_details(challan_details:Challan_details):
-    QUERY = f"INSERT INTO challan_details VALUES('{challan_details.challan_id}','{challan_details.license_plate_no}',TO_DATE('{challan_details.violance_date}','yyyy-mm-dd'),'{challan_details.violation}','{challan_details.amount}',CURRENT_TIMESTAMP)"
+    QUERY = f"INSERT INTO challan_details VALUES('{challan_details.challan_id}','{challan_details.license_plate_no}',TO_DATE('{datetime.datetime.now().date()}','yyyy-mm-dd'),'{challan_details.violation}','{challan_details.amount}',CURRENT_TIMESTAMP)"
     response = config.query_runner(sql_query=QUERY)
     if response == 1:
         return api_err.server_error
