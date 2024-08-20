@@ -101,16 +101,33 @@ async def add_vehicle(vehicle_details:Vehicle_details):
     return formated_response
 
 class Challan_details(BaseModel):
+    name:str
+    model:str
     challan_id:str
     license_plate_no:str
     violation:str
     amount:str
     violetion_time:str
+    email:str
     
     
 @app.post('/add/challan_details')
 async def add_challan_details(challan_details:Challan_details):
-    QUERY = f"INSERT INTO challan_details VALUES('{challan_details.challan_id}','{challan_details.license_plate_no}',TO_DATE('{datetime.datetime.now().date()}','yyyy-mm-dd'),'{challan_details.violation}','{challan_details.amount}',CURRENT_TIMESTAMP)"
+    QUERY = f"""INSERT INTO challan_details VALUES('{challan_details.challan_id}','{challan_details.license_plate_no}',TO_DATE('{datetime.datetime.now().date()}','yyyy-mm-dd'),'{challan_details.violation}','{challan_details.amount}',CURRENT_TIMESTAMP)"""
+    with open('html_email/challan.html') as file:
+        body = file.read()
+        body = body.replace("{{CHALLAN_NUMBER}}",challan_details.challan_id.upper())
+        body = body.replace("{{DATE_TIME}}",f"{datetime.datetime.now()}")
+        body = body.replace("{{VEHICLE_NUMBER}}",challan_details.license_plate_no.upper())
+        body = body.replace("{{MODEL_NUMBER}}",challan_details.model.upper())
+        body = body.replace("{{OWNER_NAME}}",challan_details.name.upper())
+        body = body.replace("{{VIOLATION}}",challan_details.violation)
+        body = body.replace("{{FINE_AMOUNT}}",challan_details.amount)
+    
+    response = emailSending.send_email(receiver_email=[challan_details.email],subject=f"E-CHALLAN for {challan_details.challan_id}",body=body,body_type='html')
+    if response==1:
+        return api_err.server_error
+    
     response = config.query_runner(sql_query=QUERY)
     if response == 1:
         return api_err.server_error

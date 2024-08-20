@@ -33,5 +33,7 @@ def send_email(*, receiver_email=[], subject="No subject", body="Null", body_typ
     except Exception as err:
         print(f"{gen_text.ERR}{err}")
         print("::EMAIL NOT SEND::")
+        return 1
     else:
         SMTP_CONN.quit()
+        return 0
