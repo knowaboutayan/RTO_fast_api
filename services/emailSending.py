@@ -13,8 +13,8 @@ def send_email(*, receiver_email=[], subject="No subject", body="Null", body_typ
     try:
 
         print("::Connecting to SMTP...")
-        SMTP_CONN = smtplib.SMTP(os.getenv('HOST'), int(os.getenv('PORT')))
-        SMTP_CONN.starttls()
+        SMTP_CONN = smtplib.SMTP_SSL(os.getenv('HOST'), int(os.getenv('PORT')))
+        
         print("::Connection successful::")
 
         print('::Login processing...')

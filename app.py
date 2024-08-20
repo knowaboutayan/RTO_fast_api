@@ -83,12 +83,30 @@ async def add_owner_details(owner_details:Owner_details):
 
 class Vehicle_details(BaseModel):
     vehicle_id: str
+    name:str
     owner_id: str
     license_plate_no:str
     model: str
+    email:str
 
 @app.post('/add/vehicle_details')
 async def add_vehicle(vehicle_details:Vehicle_details):
+    with open('html_email/welcome.html') as file:
+        body = file.read()
+        body = body.replace("{{OWNER_NAME}}",vehicle_details.name.title())
+        body = body.replace("{{OWNER_ID}}",vehicle_details.owner_id.upper())
+        body = body.replace("{{VEHICLE_ID}}",vehicle_details.vehicle_id.upper())
+        body = body.replace("{{VEHICLE_MODEL}}",vehicle_details.model.upper())
+        body = body.replace("{{MODEL_NUMBER}}",vehicle_details.model.upper())
+        body = body.replace("{{LICENSE_PLATE_NUMBER}}",vehicle_details.license_plate_no.upper())
+    
+    
+    
+    response = emailSending.send_email(receiver_email=[vehicle_details.email],subject=f"Registration Successful for {vehicle_details.license_plate_no.upper()}",body=body,body_type='html')
+    
+    if response==1:
+        return api_err.server_error
+   
     QUERY = f"INSERT INTO VEHICLE_DETAILS VALUES('{vehicle_details.vehicle_id.upper()}','{vehicle_details.owner_id.upper()}','{vehicle_details.license_plate_no.upper()}','{vehicle_details.model.upper()}')"
     response = config.query_runner(sql_query=QUERY)
     if response == 1:
@@ -125,6 +143,7 @@ async def add_challan_details(challan_details:Challan_details):
         body = body.replace("{{FINE_AMOUNT}}",challan_details.amount)
     
     response = emailSending.send_email(receiver_email=[challan_details.email],subject=f"E-CHALLAN for {challan_details.challan_id}",body=body,body_type='html')
+    
     if response==1:
         return api_err.server_error
     
