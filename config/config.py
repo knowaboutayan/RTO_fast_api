@@ -1,6 +1,6 @@
 
-import snowflake.connector
-import snowflake.connector.errors as snow_err
+import mysql.connector
+import mysql.connector.errors as snow_err
 import dotenv
 import os
 
@@ -9,13 +9,12 @@ import os
 def connection():
     dotenv.load_dotenv()
     try:
-        conn = snowflake.connector.connect(
-            user=os.getenv('SNOWFLAKE_USER'),
-            password=os.getenv('SNOWFLAKE_PASSWORD'),
-            account=os.getenv('SNOWFLAKE_ACCOUNT'),
-            warehouse=os.getenv('SNOWFLAKE_WAREHOUSE'),
-            database=os.getenv('SNOWFLAKE_DB'),
-            schema=os.getenv('SNOWFLAKE_SCHEMA')
+        conn = mysql.connector.connect(
+        host=os.getenv("DB_HOST"), 
+        database=os.getenv("DB_NAME"), 
+        user=os.getenv("DB_USERNAME"), 
+        password=os.getenv("DB_PASSWORD"), 
+        port=os.getenv("DB_PORT")
         )
     except snow_err.DatabaseError as err:
         print(f'!!!ERR!!! DATABASE NOT FOUND {err}')

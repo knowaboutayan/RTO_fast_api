@@ -70,7 +70,7 @@ class Owner_details(BaseModel):
     
 @app.post('/add/owner_details')
 async def add_owner_details(owner_details:Owner_details):
-    QUERY = f"INSERT INTO OWNER_DETAILS VALUES('{owner_details.owner_id.upper()}','{owner_details.name.upper()}','{owner_details.email.lower()}')"
+    QUERY = f"INSERT INTO owner_details VALUES('{owner_details.owner_id.upper()}','{owner_details.name.upper()}','{owner_details.email.lower()}');commit;"
     response = config.query_runner(sql_query=QUERY)
     if response == 1:
         return api_err.server_error
@@ -107,7 +107,7 @@ async def add_vehicle(vehicle_details:Vehicle_details):
     if response==1:
         return api_err.server_error
    
-    QUERY = f"INSERT INTO VEHICLE_DETAILS VALUES('{vehicle_details.vehicle_id.upper()}','{vehicle_details.owner_id.upper()}','{vehicle_details.license_plate_no.upper()}','{vehicle_details.model.upper()}')"
+    QUERY = f"INSERT INTO vehicle_details VALUES('{vehicle_details.vehicle_id.upper()}','{vehicle_details.owner_id.upper()}','{vehicle_details.license_plate_no.upper()}','{vehicle_details.model.upper()}');commit;"
     response = config.query_runner(sql_query=QUERY)
     if response == 1:
         return api_err.server_error
@@ -131,7 +131,7 @@ class Challan_details(BaseModel):
     
 @app.post('/add/challan_details')
 async def add_challan_details(challan_details:Challan_details):
-    QUERY = f"""INSERT INTO challan_details VALUES('{challan_details.challan_id}','{challan_details.license_plate_no}',TO_DATE('{datetime.datetime.now().date()}','yyyy-mm-dd'),'{challan_details.violation}','{challan_details.amount}',CURRENT_TIMESTAMP)"""
+    QUERY = f"""INSERT INTO challan_details VALUES('{challan_details.challan_id}','{challan_details.license_plate_no}',TO_DATE('{datetime.datetime.now().date()}','yyyy-mm-dd'),'{challan_details.violation}','{challan_details.amount}',CURRENT_TIMESTAMP);commit;"""
     with open('html_email/challan.html') as file:
         body = file.read()
         body = body.replace("{{CHALLAN_NUMBER}}",challan_details.challan_id.upper())
