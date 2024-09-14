@@ -1,4 +1,4 @@
-snowflake-connector-python==3.0.4
+mysql-connector-python
 python-dotenv==1.0.0
 fastapi==0.103.1
 uvicorn
