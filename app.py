@@ -131,7 +131,18 @@ class Challan_details(BaseModel):
     
 @app.post('/add/challan_details')
 async def add_challan_details(challan_details:Challan_details):
-    QUERY = f"""INSERT INTO challan_details VALUES('{challan_details.challan_id}','{challan_details.license_plate_no}',TO_DATE('{datetime.datetime.now().date()}','yyyy-mm-dd'),'{challan_details.violation}','{challan_details.amount}',CURRENT_TIMESTAMP);commit;"""
+    QUERY = f"""
+    INSERT INTO challan_details 
+    VALUES(
+        '{challan_details.challan_id}',
+        '{challan_details.license_plate_no}',
+        DATE_FORMAT(CURDATE(), '%Y-%m-%d'),
+        '{challan_details.violation}',
+        '{challan_details.amount}',
+        CURRENT_TIMESTAMP
+    );
+"""
+
     with open('html_email/challan.html') as file:
         body = file.read()
         body = body.replace("{{CHALLAN_NUMBER}}",challan_details.challan_id.upper())
