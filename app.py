@@ -120,7 +120,7 @@ async def add_challan_details(challan_details:Challan_details):
         '{challan_details.violation}',
         '{challan_details.amount}',
         CURRENT_TIMESTAMP
-    );
+    );commit;
 """
     
     response = config.query_runner(sql_query=QUERY)
