@@ -74,8 +74,7 @@ async def add_owner_details(owner_details:Owner_details):
     response = config.query_runner(sql_query=QUERY)
     if response == 1:
         return api_err.server_error
-    if len(response)==0:
-        return api_err.no_data_found
+    
     
     formated_response ={ 'status':200, 'text':"Added successul"}
     # formated_response = json.dumps(formated_response)
@@ -111,8 +110,7 @@ async def add_vehicle(vehicle_details:Vehicle_details):
     response = config.query_runner(sql_query=QUERY)
     if response == 1:
         return api_err.server_error
-    if len(response)==0:
-        return api_err.no_data_found
+  
     
     formated_response ={ 'status':200, 'text':"Added successul"}
     # formated_response = json.dumps(formated_response)
@@ -161,9 +159,7 @@ async def add_challan_details(challan_details:Challan_details):
     response = config.query_runner(sql_query=QUERY)
     if response == 1:
         return api_err.server_error
-    if len(response)==0:
-        return api_err.no_data_found
-    
+
     formated_response ={ 'status':200, 'text':"Added successul"}
     # formated_response = json.dumps(formated_response)
     return formated_response
