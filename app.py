@@ -94,18 +94,18 @@ async def add_vehicle(vehicle_details:Vehicle_details):
     response = config.query_runner(sql_query=QUERY)
     if response == 1:
         return api_err.server_error
+    
+    
     formated_response ={ 'status':200, 'text':"Added successul"}
     # formated_response = json.dumps(formated_response)
     return formated_response
 
 class Challan_details(BaseModel):
-    name:str
-    model:str
+
     challan_id:str
     license_plate_no:str
     violation:str
     amount:str
-    violetion_time:str
     email:str
     
     
