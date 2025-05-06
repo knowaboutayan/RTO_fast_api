@@ -187,3 +187,5 @@ async def deleteOwner_details(vehicle_id:str):
         return api_err.delete_unsuccessful
     return api_err.delete_successful
 
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8000)
