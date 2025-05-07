@@ -3,7 +3,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import dotenv
 import os
-import gen_text
+import services.gen_text as gen_text
 
 dotenv.load_dotenv()
 
