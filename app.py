@@ -6,10 +6,9 @@ from pydantic import BaseModel
 import random
 from services import emailSending
 import datetime
-import os
 import uvicorn
+import os
 app = FastAPI()
-
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -73,7 +72,15 @@ class Owner_details(BaseModel):
     
 @app.post('/add/owner_details')
 async def add_owner_details(owner_details:Owner_details):
-    QUERY = f"INSERT INTO owner_details VALUES('{owner_details.owner_id.upper()}','{owner_details.name.upper()}','{owner_details.email.lower()}');commit;"
+    QUERY = f"""INSERT INTO owner_details (
+    owner_id,
+    owner_name,
+    owner_email
+    ) VALUES('{owner_details.owner_id.upper()}','{owner_details.name.upper()}','{owner_details.email.lower()}');
+    
+    commit;
+    
+    """
     response = config.query_runner(sql_query=QUERY)
     if response == 1:
         return api_err.server_error
@@ -98,18 +105,28 @@ async def add_vehicle(vehicle_details:Vehicle_details):
     if response == 1:
         return api_err.server_error
     
-    
     formated_response ={ 'status':200, 'text':"Added successul"}
-    # formated_response = json.dumps(formated_response)
+    with open('html_email/welcome.html') as file:
+        body = file.read()
+        body = body.replace('{{OWNER_NAME}}',vehicle_details.name.capitalize())
+        body = body.replace('{{OWNER_ID}}',vehicle_details.owner_id.upper())
+        body = body.replace('{{VEHICLE_ID}}',vehicle_details.vehicle_id.upper())
+        body = body.replace('{{VEHICLE_MODEL}}',vehicle_details.model.upper())
+        body = body.replace('{{LICENSE_PLATE_NUMBER}}',vehicle_details.license_plate_no.upper())
+
+    emailSending.send_email(receiver_email =[vehicle_details.email] ,body=body,body_type='html',subject="Vehicle Registration Successful")
+    
     return formated_response
 
 class Challan_details(BaseModel):
-
     challan_id:str
     license_plate_no:str
+    owner_name:str
+    vehicle_model:str
     violation:str
-    amount:str
+    amount:int
     email:str
+
     
     
 @app.post('/add/challan_details')
@@ -121,15 +138,28 @@ async def add_challan_details(challan_details:Challan_details):
         '{challan_details.license_plate_no}',
         DATE_FORMAT(CURDATE(), '%Y-%m-%d'),
         '{challan_details.violation}',
-        '{challan_details.amount}',
+        {challan_details.amount},
         CURRENT_TIMESTAMP
     );commit;
 """
-    
+
     response = config.query_runner(sql_query=QUERY)
     if response == 1:
         return api_err.server_error
+    
 
+    with open('html_email/challan.html') as file:
+        body = file.read()
+        body = body.replace('{{CHALLAN_NUMBER}}',challan_details.challan_id.upper())
+        body = body.replace('{{DATE_TIME}}',str(datetime.datetime.now()))
+        body = body.replace('{{OWNER_NAME}}',challan_details.owner_name.capitalize())
+        body = body.replace('{{VEHICLE_NUMBER}}',challan_details.license_plate_no.upper())
+        body = body.replace('{{MODEL_NUMBER}}',challan_details.vehicle_model.upper())
+        body = body.replace('{{VIOLATION}}',challan_details.violation)
+        body = body.replace('{{FINE_AMOUNT}}', str(challan_details.amount))
+
+    emailSending.send_email(receiver_email =[challan_details.email] ,body=body,body_type='html',subject=f"E-CHALLAN {challan_details.challan_id.upper()}")
+    
     formated_response ={ 'status':200, 'text':"Added successul"}
     # formated_response = json.dumps(formated_response)
     return formated_response
@@ -193,5 +223,4 @@ async def deleteOwner_details(vehicle_id:str):
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))
-    uvicorn.run("app:app", host="0.0.0.0", port=port, reload=True)
+    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)
